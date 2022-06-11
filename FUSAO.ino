@@ -5,7 +5,7 @@ Servo servo3;
 
 const int button1 = 12; //Buttons
 const int button2 = 13;
-int button2flag=0;
+bool button2flag=0;
 
 int button1Presses = 0; //Button values
 boolean button2Pressed = false;
@@ -24,6 +24,71 @@ int pot3Angle;
 int servo1PosSaves[30] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; //position saves
 int servo2PosSaves[30] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 int servo3PosSaves[30] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+
+int previousAngle = 0;
+  
+void move(int angle1, int angle2, int angle3) {
+  int previousAngle1 = 0;
+  int previousAngle2 = 0;
+  int previousAngle3 = 0;
+
+  if(angle1>previousAngle1)
+  {
+    for(int j=previousAngle1; j<=angle1; j++)
+    {
+      servo1.write(j); //turn servo by 1 degrees
+      delay(10);        //delay for smoothness
+    }
+  }
+
+  if(angle1<previousAngle1)
+  {
+    for(int j=previousAngle1; j>=angle1; j--)
+    {
+      servo1.write(j); //turn servo by 1 degrees
+      delay(10);        //delay for smoothness
+    }
+  }
+  
+  if(angle3>previousAngle3)
+  {
+    for(int j=previousAngle3; j<=angle3; j++)
+    {
+      servo3.write(j); //turn servo by 1 degrees
+      delay(10);        //delay for smoothness
+    }
+  }
+
+  if(angle3<previousAngle3)
+  {
+    for(int j=previousAngle3; j>=angle3; j--)
+    {
+      servo3.write(j); //turn servo by 1 degrees
+      delay(10);        //delay for smoothness
+    }
+  } 
+
+  if(angle2>previousAngle2)
+  {
+    for(int j=previousAngle2; j<=angle2; j++)
+    {
+      servo2.write(j); //turn servo by 1 degrees
+      delay(10);        //delay for smoothness
+    }
+  }
+
+  if(angle2<previousAngle2)
+  {
+    for(int j=previousAngle2; j>=angle2; j--)
+    {
+      servo2.write(j); //turn servo by 1 degrees
+      delay(10);        //delay for smoothness
+    }
+  }
+  previousAngle1 = angle1;
+  previousAngle2 = angle2;
+  previousAngle3 = angle3;
+}
 
 void setup() {
   servo1.attach(5); // Set up everything and will run once; attach servos and define the pin modes
@@ -65,31 +130,21 @@ void loop() {
   //  button2Pressed = true;   
   //}
 
-  if (digitalRead(button2)==HIGH){ // if button is pressed
-    if (button2flag==0) {             // and the status flag is LOW
-      button2flag=1;                  // make status flag HIGH
-      button2Pressed = true;      
-      }                          
-    else {                        // otherwise...
-      button2flag=0;                  // make status flag LOW
-      button2Pressed = false;      
-    }
-  delay(1000);                    // wait a sec for the 
-  }    
+  if(digitalRead(button2) == HIGH){ // Pretty self-explnatory here
+    button2Pressed = true;   
+  }
   
   if(button2Pressed){ // if the boolean button2Press is true, then the servos will run though all their saved positions
     for(int i = 0; i < button1Presses; i++){
-        servo1.write(servo1PosSaves[i]);
-        servo2.write(servo2PosSaves[i]);
-        servo3.write(servo3PosSaves[i]);
+        move(servo1PosSaves[i], servo2PosSaves[i], servo3PosSaves[i]);
         Serial.println(" potentimeter Angles: ");
         Serial.println(servo1PosSaves[i]);
         Serial.println(servo2PosSaves[i]);
         Serial.println(servo3PosSaves[i]);
         delay(1050);
-        if (i = 0 || i = button1Presses -1 || i = button1Presses -2)
+        if (i == 0 || i == button1Presses -1 || i == button1Presses -2)
         {
-          delay(5000);
+          delay(1);
         }
     } 
   }
