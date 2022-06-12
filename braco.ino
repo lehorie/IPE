@@ -82,7 +82,7 @@ void loop() {
         servo1.write(servo1PosSaves[i]);
         servo2.write(servo2PosSaves[i]);
         servo3.write(servo3PosSaves[i]);
-        Serial.println(" potentimeter Angles: ");
+        Serial.println(" potentimeter Angles %d: ", i);
         Serial.println(servo1PosSaves[i]);
         Serial.println(servo2PosSaves[i]);
         Serial.println(servo3PosSaves[i]);
@@ -91,6 +91,7 @@ void loop() {
         {
           delay(5000);
         }
+  delay(1);
     } 
   }
 }

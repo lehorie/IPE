@@ -25,12 +25,12 @@ int servo1PosSaves[30] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; //positi
 int servo2PosSaves[30] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 int servo3PosSaves[30] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
-int previousAngle = 0;
-  
+int previousAngle1 = 0;
+int previousAngle2 = 0;
+int previousAngle3 = 0;
+
 void move(int angle1, int angle2, int angle3) {
-  int previousAngle1 = 0;
-  int previousAngle2 = 0;
-  int previousAngle3 = 0;
+
 
   if(angle1>previousAngle1)
   {
@@ -118,8 +118,9 @@ void loop() {
     servo2PosSaves[button1Presses] = pot2Angle;
     servo3PosSaves[button1Presses] = pot3Angle;
     
-    Serial.println("Pos 1 Saved");
-    
+    Serial.println("Pos");
+    Serial.println(button1Presses, DEC);
+    Serial.println("Saved");
     button1Presses++;
  
     delay(1000);
@@ -141,10 +142,10 @@ void loop() {
         Serial.println(servo1PosSaves[i]);
         Serial.println(servo2PosSaves[i]);
         Serial.println(servo3PosSaves[i]);
-        delay(1050);
+        delay(10);
         if (i == 0 || i == button1Presses -1 || i == button1Presses -2)
         {
-          delay(1);
+          delay(1000);
         }
     } 
   }
