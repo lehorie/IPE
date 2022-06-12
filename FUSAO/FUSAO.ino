@@ -103,7 +103,7 @@ void setup() {
 
 void loop() {
   pot1Val = analogRead(pot1); // This will read the values from the potentimeters and store it...
-  pot1Angle = map(pot1Val, 0, 1023, 0, 179); // ... and this will map the values from the potentiometers to values the servos can use and store it for later use
+  pot1Angle = map(pot1Val, 0, 1023, 62, 83); // ... and this will map the values from the potentiometers to values the servos can use and store it for later use
   pot2Val = analogRead(pot2); 
   pot2Angle = map(pot2Val, 0, 1023, 0, 179);
   pot3Val = analogRead(pot3);
@@ -112,6 +112,11 @@ void loop() {
   servo1.write(pot1Angle); // These will make the servos move to the mapped angles
   servo2.write(pot2Angle);
   servo3.write(pot3Angle);
+
+  //Serial.println("########################");
+  //Serial.println(pot1Angle);
+  //Serial.println(pot2Angle);
+  //Serial.println(pot3Angle);
   
   if(digitalRead(button1) == HIGH){ // This will check how many times button1 is pressed and save the positions to an array depending on how many times it is pressed; switch/case works like a if statement
     servo1PosSaves[button1Presses] = pot1Angle;
@@ -126,13 +131,11 @@ void loop() {
     delay(1000);
   }
 
-  
-  //if(digitalRead(button2) == HIGH){ // Pretty self-explnatory here
-  //  button2Pressed = true;   
-  //}
-
   if(digitalRead(button2) == HIGH){ // Pretty self-explnatory here
-    button2Pressed = true;   
+    button2Pressed = true;  
+    previousAngle1 = pot1Angle;
+    previousAngle2 = pot2Angle;
+    previousAngle3 = pot3Angle; 
   }
   
   if(button2Pressed){ // if the boolean button2Press is true, then the servos will run though all their saved positions
